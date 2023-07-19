@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits, Routes } from "discord.js";
 import { REST } from "@discordjs/rest";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { config } from "dotenv";
 
 console.log("Starting up bot...");
@@ -19,56 +20,53 @@ const client = new Client({
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);
 
-const commands = [
-  {
-    name: "ping",
-    description: "Pong! Prints bot ping status information",
-  },
-  {
-    name: "roll",
-    description: "Roll a dice",
-    options: [
-      {
-        name: "sides",
-        description: "The type of dice to roll",
-        type: 4,
-        required: true,
-        choices: [
-          {
-            name: "d4",
-            value: 4,
-          },
-          {
-            name: "d6",
-            value: 6,
-          },
-          {
-            name: "d8",
-            value: 8,
-          },
-          {
-            name: "d12",
-            value: 12,
-          },
-          {
-            name: "d20",
-            value: 20,
-          },
-          {
-            name: "percentile (d100)",
-            value: 100,
-          },
-        ],
-      },
-      {
-        name: "number",
-        description: "How many dice to roll",
-        type: 4,
-        required: false,
-      },
-    ],
-  },
-];
+const pingCommand = new SlashCommandBuilder()
+  .setName("ping")
+  .setDescription("Pong! Prints bot ping status information");
+
+const rollCommand = new SlashCommandBuilder()
+  .setName("roll")
+  .setDescription("Roll a dice")
+  .addIntegerOption((option) =>
+    option
+      .setName("sides")
+      .setDescription("The type of dice to roll")
+      .setRequired(true)
+      .addChoices(
+        {
+          name: "d4",
+          value: 4,
+        },
+        {
+          name: "d6",
+          value: 6,
+        },
+        {
+          name: "d8",
+          value: 8,
+        },
+        {
+          name: "d12",
+          value: 12,
+        },
+        {
+          name: "d20",
+          value: 20,
+        },
+        {
+          name: "percentile (d100)",
+          value: 100,
+        }
+      )
+  )
+  .addIntegerOption((option) =>
+    option
+      .setName("number")
+      .setDescription("The number of dice to roll")
+      .setRequired(false)
+  );
+
+const commands = [pingCommand.toJSON(), rollCommand.toJSON()];
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
