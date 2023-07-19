@@ -60,6 +60,12 @@ const commands = [
           },
         ],
       },
+      {
+        name: "number",
+        description: "How many dice to roll",
+        type: 4,
+        required: false,
+      },
     ],
   },
 ];
@@ -88,10 +94,28 @@ client.on("interactionCreate", async (interaction) => {
     );
   } else if (interaction.commandName === "roll") {
     let sides = interaction.options.getInteger("sides");
-    let result = Math.floor(Math.random() * sides) + 1;
-    await interaction.reply({
-      content: `You rolled a d${sides} and got a ${result}\n*disclaimer: multiple dice not yet supported*`,
-    });
+    let results = new Array();
+    let num = interaction.options.getInteger("number");
+    if (num != null) {
+      let resultString = "";
+      for (let i = 0; i < num; i++) {
+        results.push(Math.floor(Math.random() * sides) + 1);
+      }
+
+      for (let i = 0; i < num - 1; i++) {
+        resultString += results[i] + ", ";
+      }
+      resultString += results[num - 1];
+
+      await interaction.reply({
+        content: `You rolled ${num} d${sides} and got ${resultString}`,
+      });
+    } else {
+      results.push(Math.floor(Math.random() * sides) + 1);
+      await interaction.reply({
+        content: `You rolled a d${sides} and got a ${results}`,
+      });
+    }
   }
 });
 
