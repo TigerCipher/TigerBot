@@ -1,3 +1,5 @@
+import { config } from "dotenv";
+
 const emojis = {
   a: "🇦",
   b: "🇧",
@@ -42,4 +44,9 @@ const emojis = {
   "?": "❓",
 };
 
-export { emojis };
+config();
+const TOKEN = process.env.TIGER_BOT_TOKEN;
+const CLIENT_ID = process.env.TIGER_CLIENT_ID;
+const TEST_GUILD_ID = process.env.TEST_SERVER_ID;
+
+export { emojis, TOKEN, CLIENT_ID, TEST_GUILD_ID };
