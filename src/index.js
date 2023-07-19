@@ -1,7 +1,9 @@
 import { Client, GatewayIntentBits, Routes } from "discord.js";
 import { REST } from "@discordjs/rest";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { config } from "dotenv";
+
+import { commands } from "./commands.js";
+import { emojis } from "./globals.js";
 
 console.log("Starting up bot...");
 
@@ -20,54 +22,6 @@ const client = new Client({
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);
 
-const pingCommand = new SlashCommandBuilder()
-  .setName("ping")
-  .setDescription("Pong! Prints bot ping status information");
-
-const rollCommand = new SlashCommandBuilder()
-  .setName("roll")
-  .setDescription("Roll a dice")
-  .addIntegerOption((option) =>
-    option
-      .setName("sides")
-      .setDescription("The type of dice to roll")
-      .setRequired(true)
-      .addChoices(
-        {
-          name: "d4",
-          value: 4,
-        },
-        {
-          name: "d6",
-          value: 6,
-        },
-        {
-          name: "d8",
-          value: 8,
-        },
-        {
-          name: "d12",
-          value: 12,
-        },
-        {
-          name: "d20",
-          value: 20,
-        },
-        {
-          name: "percentile (d100)",
-          value: 100,
-        }
-      )
-  )
-  .addIntegerOption((option) =>
-    option
-      .setName("number")
-      .setDescription("The number of dice to roll")
-      .setRequired(false)
-  );
-
-const commands = [pingCommand.toJSON(), rollCommand.toJSON()];
-
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
@@ -75,7 +29,11 @@ client.on("ready", () => {
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
-  if (interaction.commandName === "ping") {
+  if (interaction.commandName === "test") {
+    await interaction.reply({
+      content: `Test: ${emojis["a"] + emojis[3] + emojis["!"]}`,
+    });
+  } else if (interaction.commandName === "ping") {
     // await interaction.reply("Pong!");
     const sent = await interaction.reply({
       content: "Pinging...",
