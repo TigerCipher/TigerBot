@@ -48,6 +48,9 @@ async function deployCommands() {
       }
     );
 
+    // TEMP (removes global commands)
+    // await rest.put(Routes.applicationCommands(globals.CLIENT_ID), { body: [] });
+
     console.log("Successfully reloaded application (/) commands.");
   } catch (error) {
     console.error("Error occurred while reloading appplication (/) commands");
