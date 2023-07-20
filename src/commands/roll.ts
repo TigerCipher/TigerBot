@@ -45,7 +45,7 @@ const data = new SlashCommandBuilder()
 
 async function execute(interaction: ChatInputCommandInteraction) {
   let sides = interaction.options.getInteger("sides");
-  let results = new Array();
+  let results = [];
   let num = interaction.options.getInteger("number");
   if (num != null) {
     let resultString = "";

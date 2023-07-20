@@ -3,6 +3,7 @@ import {Client, GatewayIntentBits} from "discord.js";
 import {registerListeners} from "./event_manager";
 import globals from "./globals";
 import {deployCommands, registerCommands} from "./command_manager";
+import {testInitGame} from "./game/game";
 
 console.log("Bot is starting up...");
 
@@ -23,3 +24,5 @@ async function main() {
 }
 
 main().then(() => console.log("Initialization complete"));
+
+testInitGame();
