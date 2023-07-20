@@ -22,4 +22,4 @@ async function main() {
     await client.login(globals.TOKEN);
 }
 
-main().then(r => console.log("Initialization complete"));
+main().then(() => console.log("Initialization complete"));
