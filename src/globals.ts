@@ -44,9 +44,29 @@ const emojis = {
   "?": "❓",
 };
 
-config();
-const TOKEN = process.env.TIGER_BOT_TOKEN;
-const CLIENT_ID = process.env.TIGER_CLIENT_ID;
-const TEST_GUILD_ID = process.env.TEST_SERVER_ID;
+class Globals {
+  private static instance: Globals;
 
-export { emojis, TOKEN, CLIENT_ID, TEST_GUILD_ID };
+  private constructor() {
+    console.log("Configuring environment...");
+    config();
+
+    this.TOKEN = process.env.TIGER_BOT_TOKEN!;
+    this.CLIENT_ID = process.env.TIGER_CLIENT_ID!;
+    this.TEST_GUILD_ID = process.env.TEST_SERVER_ID!;
+  }
+
+  public static getInstance(): Globals {
+    if (!Globals.instance) {
+      Globals.instance = new Globals();
+    }
+    return Globals.instance;
+  }
+
+  public TOKEN: string;
+  public CLIENT_ID: string;
+  public TEST_GUILD_ID: string;
+}
+
+export { emojis };
+export default Globals.getInstance();

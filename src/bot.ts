@@ -1,8 +1,8 @@
 import { Client, GatewayIntentBits } from "discord.js";
 
 import { registerListeners } from "./event_manager";
-import { deployCommands } from "./command_manager";
-import { TOKEN } from "./globals";
+import globals from "./globals";
+import { deployCommands, registerCommands } from "./command_manager";
 
 console.log("Bot is starting up...");
 
@@ -16,9 +16,10 @@ const client = new Client({
 
 async function main() {
   registerListeners(client);
+  registerCommands();
   await deployCommands();
 
-  client.login(TOKEN);
+  client.login(globals.TOKEN);
 }
 
 main();

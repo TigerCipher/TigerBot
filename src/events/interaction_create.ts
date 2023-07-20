@@ -1,11 +1,11 @@
 import { Events, Interaction } from "discord.js";
-import { BaseCommand, commandsSet } from "../command_manager";
+import { commands } from "../command_manager";
 
 const name = Events.InteractionCreate;
 
 async function execute(interaction: Interaction) {
   if (!interaction.isChatInputCommand()) return;
-  const cmd = commandsSet.get(interaction.commandName);
+  const cmd = commands.get(interaction.commandName);
 
   if (!cmd) {
     console.error(
