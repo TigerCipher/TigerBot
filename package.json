@@ -2,7 +2,7 @@
   "name": "tigerbot",
   "version": "1.0.0",
   "description": "A general purpose discord bot",
-  "main": "./src/index.js",
+  "main": "./src/bot.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/bot.ts",
