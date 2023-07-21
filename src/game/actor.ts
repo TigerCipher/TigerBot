@@ -1,21 +1,21 @@
 class Actor {
-    name: string;
-    hp: number;
-    maxHp: number;
-    attack: number;
-    defence: number;
-    xp: number;
-    gold: number;
+    name: string = "";
+    hp: number = 10;
+    maxHp: number = 10;
+    attack: number = 5;
+    defence: number = 10;
+    xp: number = 0;
+    gold: number = 0;
 
-    constructor(name: string, hp: number, maxHp: number, attack: number, defence: number, xp: number, gold: number) {
-        this.name = name;
-        this.hp = hp;
-        this.maxHp = maxHp;
-        this.attack = attack;
-        this.defence = defence;
-        this.xp = xp;
-        this.gold = gold;
-    }
+    // constructor(name: string, hp: number, maxHp: number, attack: number, defence: number, xp: number, gold: number) {
+    //     this.name = name;
+    //     this.hp = hp;
+    //     this.maxHp = maxHp;
+    //     this.attack = attack;
+    //     this.defence = defence;
+    //     this.xp = xp;
+    //     this.gold = gold;
+    // }
 
     fight(enemy: Actor) {
         this.defence = Math.min(enemy.defence, 19); // arbitrary cap to defence value, possibly temporary

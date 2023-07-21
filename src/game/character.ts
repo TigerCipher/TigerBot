@@ -1,5 +1,6 @@
 import {Actor} from "./actor";
 import fs from "fs";
+import {hydrate} from "../util"
 
 interface CharacterData {
     characters: Character[];
@@ -9,20 +10,15 @@ class Character extends Actor {
 
     LEVEL_CAP = 10;
 
-    userId: string;
-    level: number;
-    mana: number;
+    userId: string = "user_id";
+    level: number = 1;
+    mana: number = 20;
 
     // TODO: Add inventory, battling state, mode, mana, level
-    // TODO: Organize, maybe make a character builder for defaults
-    constructor(name: string, hp: number, maxHp: number, attack: number, defence: number, xp: number, gold: number, userId: string, level: number = 1, mana: number = 15) {
-        super(name, hp, maxHp, attack, defence, xp, gold);
-        this.userId = userId;
-        this.level = level;
-        this.mana = mana;
-    }
+
 
     save() {
+        console.log(`Saving character "${this.name}`);
         let data: CharacterData = {characters: []};
         try {
             const raw = fs.readFileSync("characters.json", "utf-8");
@@ -43,22 +39,22 @@ class Character extends Actor {
 }
 
 function loadCharacter(userId: string) {
-    let data: CharacterData = {characters: []};
+    let raw = "";
     try {
-        const raw = fs.readFileSync("characters.json", "utf-8");
-        data = JSON.parse(raw);
+        raw = fs.readFileSync("characters.json", "utf-8");
     } catch (error) {
         return null;
     }
-
-    const existingCharIndex = data.characters.findIndex((char) => char.userId === userId);
-
-    if (existingCharIndex !== -1) {
-        const charData = data.characters[existingCharIndex];
-        // TODO: Cleaner way of doing this
-        return new Character(charData.name, charData.hp, charData.maxHp, charData.attack, charData.defence, charData.xp, charData.gold, charData.userId, charData.level, charData.mana);
+    const data: Character[] = JSON.parse(raw).characters;
+    const charItem = data.find((c) => c.userId === userId); // finds the character as Object
+    const charStr = charItem ? JSON.stringify(charItem) : null; // turn it back into a json strong to use my hydrate function
+    if(charStr != null){
+        console.log(`CharItem is: ${charItem?.constructor.name}`);
+        console.log(`Found character: ${charStr}`);
+        return hydrate(Character, charStr); // rehydrate the character json data into an actual Character object with behavior
     }
+
     return null;
 }
 
-export {Character, CharacterData, loadCharacter};
+export {Character, loadCharacter};

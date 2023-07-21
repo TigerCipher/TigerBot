@@ -7,14 +7,18 @@ function testInitGame() {
     let char1 = loadCharacter("example discord id");
     // let char = loadCharacter("non existing id");
     console.log(`Loaded character: ${char1?.name}`);
-    let char2 = new Character("Monaj the Warlock", 5, 6, 3, 15, 0, 10, "another id", 2);
+    // let char2 = new Character("Monaj the Warlock", 5, 6, 3, 15, 0, 10, "another id", 2);
+    let char3 = new Character();
+    char3.name = "Bill the Goat";
+    char3.userId = "some new ID - really need to make a character builder class"; // TODO
+    char3.save();
 
     if (char1 !== null) {
         console.log(`Char1 is: ${char1.constructor.name}`);
         char1.save();
     }
-    char2.save();
-    console.log("In theory, character should have been saved");
+    // char2.save();
+    // console.log("In theory, character should have been saved");
 }
 
 export {testInitGame};
